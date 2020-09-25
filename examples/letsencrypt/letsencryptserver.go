@@ -14,6 +14,8 @@ func requestHandler(ctx *fasthttp.RequestCtx) {
 }
 
 func main() {
+	fasthttp.Get()
+	//fasthttp.GetTimeout()
 	m := &autocert.Manager{
 		Prompt:     autocert.AcceptTOS,
 		HostPolicy: autocert.HostWhitelist("example.com"), // Replace with your domain.

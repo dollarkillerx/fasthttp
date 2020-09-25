@@ -2462,7 +2462,7 @@ func (s *Server) acquireCtx(c net.Conn) (ctx *RequestCtx) {
 		}
 		keepBodyBuffer := !s.ReduceMemoryUsage
 		ctx.Request.keepBodyBuffer = keepBodyBuffer
-		ctx.Response.keepBodyBuffer = keepBodyBuffer
+		ctx.Response.KeepBodyBuffer = keepBodyBuffer
 	} else {
 		ctx = v.(*RequestCtx)
 	}
@@ -2486,7 +2486,7 @@ func (ctx *RequestCtx) Init2(conn net.Conn, logger Logger, reduceMemoryUsage boo
 
 	keepBodyBuffer := !reduceMemoryUsage
 	ctx.Request.keepBodyBuffer = keepBodyBuffer
-	ctx.Response.keepBodyBuffer = keepBodyBuffer
+	ctx.Response.KeepBodyBuffer = keepBodyBuffer
 }
 
 // Init prepares ctx for passing to RequestHandler.

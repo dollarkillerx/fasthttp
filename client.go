@@ -171,6 +171,8 @@ func Post(dst []byte, url string, postArgs *Args) (statusCode int, body []byte, 
 
 var defaultClient Client
 
+var DefaultClient Client
+
 // Client implements http client.
 //
 // Copying Client by value is prohibited. Create new instance instead.
@@ -923,7 +925,7 @@ const defaultMaxRedirectsCount = 16
 func doRequestFollowRedirectsBuffer(req *Request, dst []byte, url string, c clientDoer) (statusCode int, body []byte, err error) {
 	resp := AcquireResponse()
 	bodyBuf := resp.bodyBuffer()
-	resp.keepBodyBuffer = true
+	resp.KeepBodyBuffer = true
 	oldBody := bodyBuf.B
 	bodyBuf.B = dst
 
@@ -931,7 +933,7 @@ func doRequestFollowRedirectsBuffer(req *Request, dst []byte, url string, c clie
 
 	body = bodyBuf.B
 	bodyBuf.B = oldBody
-	resp.keepBodyBuffer = false
+	resp.KeepBodyBuffer = false
 	ReleaseResponse(resp)
 
 	return statusCode, body, err

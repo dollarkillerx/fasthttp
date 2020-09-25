@@ -85,7 +85,7 @@ type Response struct {
 	// Use it for writing HEAD responses.
 	SkipBody bool
 
-	keepBodyBuffer bool
+	KeepBodyBuffer bool
 
 	// Remote TCPAddr from concurrently net.Conn
 	raddr net.Addr
@@ -355,6 +355,10 @@ func (resp *Response) bodyBuffer() *bytebufferpool.ByteBuffer {
 	return resp.body
 }
 
+func (resp *Response) BodyBuffer() *bytebufferpool.ByteBuffer {
+	return resp.bodyBuffer()
+}
+
 func (req *Request) bodyBuffer() *bytebufferpool.ByteBuffer {
 	if req.body == nil {
 		req.body = requestBodyPool.Get()
@@ -506,7 +510,7 @@ func (resp *Response) ResetBody() {
 	resp.bodyRaw = nil
 	resp.closeBodyStream() //nolint:errcheck
 	if resp.body != nil {
-		if resp.keepBodyBuffer {
+		if resp.KeepBodyBuffer {
 			resp.body.Reset()
 		} else {
 			responseBodyPool.Put(resp.body)
@@ -736,6 +740,10 @@ func (req *Request) parseURI() error {
 	req.parsedURI = true
 
 	return req.uri.parse(req.Header.Host(), req.Header.RequestURI(), req.isTLS)
+}
+
+func (req *Request) ParseURI() error {
+	return req.parseURI()
 }
 
 // PostArgs returns POST arguments.
